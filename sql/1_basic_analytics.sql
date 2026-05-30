@@ -1,4 +1,4 @@
-1. What is the average academic performance for each gender?
+1. How many students demonstrate high academic engagement and performance?
 
 SELECT
 COUNT(*)
@@ -80,3 +80,36 @@ ROUND(AVG(FINAL_EXAM_SCORE), 2) AS AVERAGE_FINAL_EXAM_SCORE
 FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME
 ORDER BY AVERAGE_FINAL_EXAM_SCORE DESC;
+
+7. Which students have unusually high study hours?
+
+WITH STATS AS (
+    SELECT
+        AVG(STUDY_HOURS_PER_WEEK) AS AVG_STUDY_HOURS
+    FROM STUDENT_DATA
+)
+SELECT
+    STUDENT_ID,
+    STUDY_HOURS_PER_WEEK
+FROM STUDENT_DATA,
+     STATS
+
+WHERE STUDY_HOURS_PER_WEEK >
+      (AVG_STUDY_HOURS * 2);
+
+8. Generate summary statistics for a student's final exam score
+
+SELECT
+    MIN(FINAL_EXAM_SCORE) AS MIN_SCORE,
+    MAX(FINAL_EXAM_SCORE) AS MAX_SCORE,
+    ROUND(AVG(FINAL_EXAM_SCORE),2) AS AVG_SCORE
+FROM STUDENT_DATA;
+
+
+9. How many records belong to each graduation outcome?
+
+SELECT
+    GRADUATION_OUTCOME,
+    COUNT(*) AS RECORD_COUNT
+FROM STUDENT_DATA
+GROUP BY GRADUATION_OUTCOME;
