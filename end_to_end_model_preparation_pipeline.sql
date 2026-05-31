@@ -1,0 +1,200 @@
+-- A STUDENT GRADUATION PREDICTION PIPELINE
+-- DATA QUALITY + FEATURE ENGINEERING + MODEL PREPARATION
+-- Table: STUDENT_DATA
+-- By Anthony L. Anumel
+
+
+-- 1. DATA QUALITY AUDITS
+
+- Identifying missing values in critical modelling fields
+
+SELECT
+    COUNT(CASE WHEN ATTENDANCE_RATE IS NULL THEN 1 END)
+        AS MISSING_ATTENDANCE,
+
+    COUNT(CASE WHEN FINAL_EXAM_SCORE IS NULL THEN 1 END)
+        AS MISSING_FINAL_SCORE,
+
+    COUNT(CASE WHEN GRADUATION_OUTCOME IS NULL THEN 1 END)
+        AS MISSING_OUTCOME
+FROM STUDENT_DATA;
+
+
+- Duplicate student identifiers
+
+SELECT
+    STUDENT_ID,
+    COUNT(*) AS DUPLICATE_COUNT
+FROM STUDENT_DATA
+GROUP BY STUDENT_ID
+HAVING COUNT(*) > 1;
+
+
+- Potential study-hour outliers
+
+WITH STUDY_STATS AS (
+
+    SELECT
+        AVG(STUDY_HOURS_PER_WEEK)
+            AS AVG_STUDY_HOURS
+
+    FROM STUDENT_DATA
+
+)
+
+SELECT
+    STUDENT_ID,
+    STUDY_HOURS_PER_WEEK
+
+FROM STUDENT_DATA,
+     STUDY_STATS
+
+WHERE STUDY_HOURS_PER_WEEK >
+      AVG_STUDY_HOURS * 2;
+
+
+-- 2. FEATURE ENGINEERING LAYER
+
+CREATE OR REPLACE VIEW STUDENT_FEATURES AS
+
+WITH BASE_FEATURES AS (
+
+    SELECT
+
+        STUDENT_ID,
+        GENDER,
+        AGE,
+        SOCIO_ECONOMIC_SCORE,
+
+        ATTENDANCE_RATE,
+        LMS_LOGINS_PER_WEEK,
+        STUDY_HOURS_PER_WEEK,
+
+        PART_TIME_JOB_HOURS,
+        FINANCIAL_AID,
+        DISCIPLINARY_RECORD,
+
+        AVERAGE_ASSIGNMENT_SCORE,
+        MIDTERM_EXAM_SCORE,
+        FINAL_EXAM_SCORE,
+
+        GRADUATION_OUTCOME,
+
+        ROUND(
+            (
+                0.3 * AVERAGE_ASSIGNMENT_SCORE
+              + 0.3 * MIDTERM_EXAM_SCORE
+              + 0.4 * FINAL_EXAM_SCORE
+            ),
+            2
+        ) AS WEIGHTED_ACADEMIC_SCORE,
+
+        ROUND(
+            (
+                0.5 * ATTENDANCE_RATE
+              + 0.2 * STUDY_HOURS_PER_WEEK
+              + 0.3 * LMS_LOGINS_PER_WEEK
+            ),
+            2
+        ) AS ENGAGEMENT_SCORE
+
+    FROM STUDENT_DATA
+
+),
+
+RISK_FEATURES AS (
+
+    SELECT
+        B.*,
+        CASE
+            WHEN ATTENDANCE_RATE < 65
+              OR DISCIPLINARY_RECORD = 'CRITICAL'
+              OR FINAL_EXAM_SCORE < 50
+            THEN 1
+            ELSE 0
+        END AS AT_RISK,
+        (
+            CASE
+                WHEN ATTENDANCE_RATE < 65 THEN 2
+                ELSE 0
+            END
+            +
+            CASE
+                WHEN LMS_LOGINS_PER_WEEK < 5 THEN 2
+                ELSE 0
+            END
+            +
+            CASE
+                WHEN DISCIPLINARY_RECORD = 'CRITICAL' THEN 1
+                ELSE 0
+            END
+            +
+            CASE
+                WHEN PART_TIME_JOB_HOURS > 20 THEN 1
+                ELSE 0
+            END
+        ) AS RISK_SCORE
+
+    FROM BASE_FEATURES B
+),
+SEGMENTED AS (
+    SELECT
+        R.*,
+        NTILE(4) OVER (
+            PARTITION BY GENDER
+            ORDER BY ENGAGEMENT_SCORE DESC
+        ) AS ENGAGEMENT_QUARTILE
+    FROM RISK_FEATURES R
+),
+
+FINAL_FEATURES AS (
+
+    SELECT
+        STUDENT_ID,
+        GENDER,
+        AGE,
+        SOCIO_ECONOMIC_SCORE,
+        ATTENDANCE_RATE,
+        LMS_LOGINS_PER_WEEK,
+        STUDY_HOURS_PER_WEEK,
+        PART_TIME_JOB_HOURS,
+        WEIGHTED_ACADEMIC_SCORE,
+        ENGAGEMENT_SCORE,
+        AT_RISK,
+        RISK_SCORE,
+        CASE
+            WHEN ENGAGEMENT_QUARTILE = 1
+                THEN 'HIGHLY_ENGAGED'
+
+            WHEN ENGAGEMENT_QUARTILE IN (2,3)
+                THEN 'MODERATELY_ENGAGED'
+
+            ELSE 'AT_RISK'
+        END AS ENGAGEMENT_SEGMENT,
+
+        CASE
+            WHEN GRADUATION_OUTCOME = 'DROPOUT_RISK'
+            THEN 1
+            ELSE 0
+        END AS TARGET_LABEL
+    FROM SEGMENTED
+)
+
+SELECT *
+FROM FINAL_FEATURES;
+
+
+-- 3. MODEL-READY FEATURE STORE VIEW
+
+SELECT *
+FROM STUDENT_FEATURES;
+
+
+-- 4. TRAINING DATASET SAMPLE
+
+SELECT *
+FROM STUDENT_FEATURES
+FETCH FIRST 20 ROWS ONLY;
+
+
+-- END
