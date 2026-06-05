@@ -1,0 +1,51 @@
+,student_id,scholarship_eligible,scholarship_type,scholarship_amount,scholarship_score,recommendation_status,post_graduate_program
+0,1,No,Need-Based,30716,536,Rejected,Architecture
+1,2,Yes,Leadership,58279,296,Rejected,Architecture
+2,3,Yes,Need-Based,33524,679,Rejected,AI
+3,4,No,Research,48968,410,Approved,Philosophy
+4,5,No,Research,86729,199,Rejected,AI
+5,6,No,Need-Based,16049,157,Approved,Civil Engineering
+6,7,No,Need-Based,94534,886,Rejected,Architecture
+7,8,No,Leadership,32770,615,Approved,Architecture
+8,9,No,Need-Based,62870,712,Rejected,AI
+9,10,No,Merit,59655,974,Rejected,Civil Engineering
+10,11,No,Research,27698,545,Approved,AI
+11,12,No,Need-Based,78846,565,Approved,UX
+12,13,Yes,Research,87827,559,Pending,Civil Engineering
+13,14,No,Research,97491,985,Rejected,Data Science
+14,15,No,Research,71950,480,Rejected,UX
+15,16,Yes,Research,57166,311,Approved,Architecture
+16,17,Yes,Research,41041,399,Rejected,Civil Engineering
+17,18,No,Merit,54756,118,Pending,AI
+18,19,Yes,Need-Based,94871,515,Pending,Philosophy
+19,20,No,Merit,65351,879,Approved,Philosophy
+20,21,No,Research,64428,561,Rejected,Philosophy
+21,22,No,Merit,44844,767,Rejected,Philosophy
+22,23,Yes,Merit,58896,886,Pending,CyberSecurity
+23,24,No,Research,52650,383,Pending,UX
+24,25,Yes,Need-Based,74935,576,Pending,Data Science
+25,26,No,Need-Based,44829,886,Rejected,Architecture
+26,27,No,Need-Based,2967,699,Approved,UX
+27,28,No,Need-Based,56345,942,Rejected,Data Science
+28,29,No,Need-Based,57259,575,Approved,AI
+29,30,Yes,Need-Based,75238,754,Rejected,Philosophy
+30,31,No,Leadership,55447,353,Pending,Philosophy
+31,32,No,Need-Based,63656,828,Rejected,CyberSecurity
+32,33,No,Leadership,89379,964,Rejected,UX
+33,34,Yes,Leadership,26372,121,Rejected,Data Science
+34,35,No,Need-Based,38800,634,Pending,Philosophy
+35,36,Yes,Research,93879,474,Approved,AI
+36,37,Yes,Need-Based,38258,473,Rejected,Philosophy
+37,38,No,Research,56301,871,Rejected,Civil Engineering
+38,39,No,Research,73742,878,Rejected,UX
+39,40,Yes,Research,89967,486,Rejected,Philosophy
+40,41,Yes,Need-Based,45373,331,Rejected,Civil Engineering
+41,42,Yes,Merit,73353,256,Pending,Civil Engineering
+42,43,No,Need-Based,86767,755,Pending,Civil Engineering
+43,44,No,Leadership,33700,322,Approved,Architecture
+44,45,No,Merit,90327,442,Pending,AI
+45,46,No,Need-Based,36313,370,Approved,Architecture
+46,47,Yes,Research,4089,387,Pending,Architecture
+47,48,No,Merit,86036,840,Rejected,UX
+48,49,Yes,Merit,52560,190,Approved,Architecture
+49,50,No,Leadership,2501,872,Rejected,CyberSecurity
