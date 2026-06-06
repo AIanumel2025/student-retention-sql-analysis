@@ -141,3 +141,44 @@ SELECT
         ELSE 0
     END AS TARGET_LABEL
 FROM STUDENT_DATA;
+
+7. The university wants to build a dataset that can be used
+to analyse and predict graduate employment outcomes. Construct a model-ready dataset by combining student academic performance data with post-graduation career outcomes.
+
+SELECT
+    SD.STUDENT_ID,
+    SD.GENDER,
+    SD.SOCIO_ECONOMIC_SCORE,
+    SD.FINAL_EXAM_SCORE,
+    SD.GRADUATION_OUTCOME,
+    SC.EMPLOYMENT_STATUS,
+    SC.STARTING_SALARY
+FROM STUDENT_DATA SD
+INNER JOIN STUDENT_CAREER SC
+    ON SD.STUDENT_ID = SC.STUDENT_ID;
+
+8. The AI team wants to develop a machine learning model
+capable of predicting graduate starting salaries based
+on academic performance, demographic information, scholarship outcomes, and employment characteristics. Create a reusable SQL view that assembles a model-ready
+dataset for salary prediction.
+
+CREATE VIEW SALARY_PREDICTION AS
+SELECT
+    SD.AGE,
+    SD.GENDER,
+    SD.SOCIO_ECONOMIC_SCORE,
+    SD.ATTENDANCE_RATE,
+    SD.AVERAGE_ASSIGNMENT_SCORE,
+    SD.FINAL_EXAM_SCORE,
+    SD.STUDY_HOURS_PER_WEEK,
+    SS.SCHOLARSHIP_TYPE,
+    SS.SCHOLARSHIP_AMOUNT,
+    SC.EMPLOYMENT_TYPE,
+    SC.REMOTE_WORK_AVAILABILITY,
+    SC.CAREER_SATISFACTION_SCORE,
+    SC.STARTING_SALARY
+FROM STUDENT_DATA SD
+INNER JOIN STUDENT_SCHOLARSHIP SS
+    ON SD.STUDENT_ID = SS.STUDENT_ID
+INNER JOIN STUDENT_CAREER SC
+    ON SD.STUDENT_ID = SC.STUDENT_ID;

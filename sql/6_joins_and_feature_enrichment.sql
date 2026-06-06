@@ -62,3 +62,39 @@ SELECT
 FROM SCHOLARSHIP_STATS
 WHERE STARTING_SALARY >= SCHOLARSHIP_TYPE_AVG_SALARY + 10000
 ORDER BY DIFFERENCE DESC;
+
+4. The university wants to identify students who received
+scholarship approval despite relatively weak academic
+performance. Return students whose scholarship recommendation was
+approved but whose final exam score is below 60.
+
+I employed the STUDENT_DATA and STUDENT_SCHOLARSHIP tables
+
+SELECT
+    SD.STUDENT_ID,
+    SD.FINAL_EXAM_SCORE,
+    SS.SCHOLARSHIP_TYPE,
+    SS.RECOMMENDATION_STATUS
+FROM STUDENT_DATA SD
+INNER JOIN STUDENT_SCHOLARSHIP SS
+    ON SD.STUDENT_ID = SS.STUDENT_ID
+WHERE SS.RECOMMENDATION_STATUS = 'APPROVED'
+    AND SD.FINAL_EXAM_SCORE < 60;
+
+5. AI and Data Engineering teams often need to combine
+multiple datasets into a single enriched table for analytics, reporting, and machine learning workflows. Create an enriched dataset that combines academic, scholarship, and career information for each student.
+
+SELECT
+    SD.STUDENT_ID,
+    SD.SOCIO_ECONOMIC_SCORE,
+    SD.FINAL_EXAM_SCORE,
+    SS.SCHOLARSHIP_TYPE,
+    SS.SCHOLARSHIP_AMOUNT,
+    SC.EMPLOYMENT_STATUS,
+    SC.STARTING_SALARY,
+    SC.CAREER_SATISFACTION_SCORE
+FROM STUDENT_DATA SD
+INNER JOIN STUDENT_SCHOLARSHIP SS
+    ON SD.STUDENT_ID = SS.STUDENT_ID
+INNER JOIN STUDENT_CAREER SC
+    ON SD.STUDENT_ID = SC.STUDENT_ID;

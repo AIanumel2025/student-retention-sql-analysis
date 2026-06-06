@@ -124,3 +124,39 @@ SELECT
     ROUND(AVG(FINAL_EXAM_SCORE),2) AS AVG_FINAL_SCORE
 FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME;
+
+7. The scholarship committee wants to understand how
+scholarship awards are distributed across different
+scholarship categories. For each scholarship type, calculate:
+- The number of students
+- Average scholarship amount
+- Average scholarship score
+
+SELECT
+    SCHOLARSHIP_TYPE,
+    COUNT(*) AS NUMBER_OF_STUDENTS,
+    ROUND(AVG(SCHOLARSHIP_AMOUNT), 2) AS AVG_SCHOLARSHIP_AMOUNT,
+    ROUND(AVG(SCHOLARSHIP_SCORE), 2) AS AVG_SCHOLARSHIP_SCORE
+FROM STUDENT_SCHOLARSHIP
+GROUP BY SCHOLARSHIP_TYPE
+ORDER BY AVG_SCHOLARSHIP_AMOUNT DESC;
+
+8. The university wants to understand whether students
+who receive financial aid are also more likely to
+qualify for scholarships. Analyse the relationship between financial aid status
+and scholarship eligibility by counting the number of students in each group. 
+Returns:
+- financial_aid
+- scholarship_eligible
+- number_of_students
+
+SELECT
+    SD.FINANCIAL_AID,
+    SS.SCHOLARSHIP_ELIGIBLE,
+    COUNT(*) AS NUMBER_OF_STUDENTS
+FROM STUDENT_DATA SD
+INNER JOIN STUDENT_SCHOLARSHIP SS
+    ON SD.STUDENT_ID = SS.STUDENT_ID
+GROUP BY
+    SD.FINANCIAL_AID,
+    SS.SCHOLARSHIP_ELIGIBLE;

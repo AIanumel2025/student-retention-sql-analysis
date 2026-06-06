@@ -147,3 +147,39 @@ WITH PERFORMANCE_RANKING AS (
 SELECT *
 FROM PERFORMANCE_RANKING
 WHERE RN <= 3;
+
+6. The university career services team wants to identify
+graduates who are earning substantially more than their
+industry peers. For each industry:
+
+- Calculate the average starting salary.
+- Compare each graduate's salary against the industry
+  average.
+- Identify graduates whose starting salary is at least
+  £15,000 higher than their industry's average salary.
+
+WITH INDUSTRY_SALARY_STATS AS (
+    SELECT
+        STUDENT_ID,
+        INDUSTRY,
+        STARTING_SALARY,
+        ROUND(
+            AVG(STARTING_SALARY)
+            OVER (PARTITION BY INDUSTRY),
+            2
+        ) AS INDUSTRY_AVG_SALARY
+    FROM STUDENT_CAREER
+)
+
+SELECT
+    STUDENT_ID,
+    INDUSTRY,
+    STARTING_SALARY,
+    INDUSTRY_AVG_SALARY,
+    ROUND(
+        STARTING_SALARY - INDUSTRY_AVG_SALARY,
+        2
+    ) AS DIFFERENCE
+FROM INDUSTRY_SALARY_STATS
+WHERE STARTING_SALARY - INDUSTRY_AVG_SALARY >= 15000
+ORDER BY DIFFERENCE DESC;

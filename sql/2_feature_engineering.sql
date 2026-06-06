@@ -127,3 +127,26 @@ SELECT
 FROM STUDENT_DATA
 
 ORDER BY RISK_SCORE DESC;
+
+6. Business Context:
+The university wants to identify students who may be
+at risk of poor academic outcomes or potential dropout. Create a derived feature called RISK_FLAG based on attendance, disciplinary history, and academic performance indicators.
+
+Risk Criteria:
+A student is classified as HIGH RISK if:
+- attendance_rate < 70 OR
+- disciplinary_record = 'HIGH' OR
+- average_assignment_score < 60
+Otherwise classify the student as LOW RISK.
+
+SELECT
+    STUDENT_ID,
+    GRADUATION_OUTCOME,
+    CASE
+        WHEN ATTENDANCE_RATE < 70
+            OR DISCIPLINARY_RECORD = 'HIGH'
+            OR AVERAGE_ASSIGNMENT_SCORE < 60
+        THEN 'HIGH RISK'
+        ELSE 'LOW RISK'
+    END AS RISK_FLAG
+FROM STUDENT_DATA;
