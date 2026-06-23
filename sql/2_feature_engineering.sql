@@ -1,4 +1,4 @@
-1. Create a binary risk label AT_RISK, that identifies students likely to struggle academically
+/* 1. Create a binary risk label AT_RISK, that identifies students likely to struggle academically */
 
 SELECT
     STUDENT_ID,
@@ -14,10 +14,11 @@ SELECT
 
 FROM STUDENT_DATA;
 
-2. Create a weighted academic score with the following:
+/* 2. Create a weighted academic score with the following:
 30% Assignment Score
 30% Midterm Score
 40% Final Exam Score
+*/
 
 SELECT
     STUDENT_ID,
@@ -34,7 +35,7 @@ SELECT
 
 FROM STUDENT_DATA;
 
-3. Create an engagement score using attendance, study habits and LMS activity
+/* 3. Create an engagement score using attendance, study habits and LMS activity */
 
 SELECT
     STUDENT_ID,
@@ -51,7 +52,7 @@ SELECT
 
 FROM STUDENT_DATA;
 
-4. Categorise students based on engagement levels
+/* 4. Categorise students based on engagement levels */
 
 SELECT
     STUDENT_ID,
@@ -85,11 +86,12 @@ SELECT
 
 FROM STUDENT_DATA;
 
-5. Create the cumulative student risk score based on the following multiple warning indicators:
+/* 5. Create the cumulative student risk score based on the following multiple warning indicators:
 * Attendance rate
 * LMS Logins per week
 * Disciplinary record
 * Part time job hours
+*/
 
 SELECT
     STUDENT_ID,
@@ -128,7 +130,7 @@ FROM STUDENT_DATA
 
 ORDER BY RISK_SCORE DESC;
 
-6. Business Context:
+/* 6. Business Context:
 The university wants to identify students who may be
 at risk of poor academic outcomes or potential dropout. Create a derived feature called RISK_FLAG based on attendance, disciplinary history, and academic performance indicators.
 
@@ -138,6 +140,7 @@ A student is classified as HIGH RISK if:
 - disciplinary_record = 'HIGH' OR
 - average_assignment_score < 60
 Otherwise classify the student as LOW RISK.
+*/
 
 SELECT
     STUDENT_ID,

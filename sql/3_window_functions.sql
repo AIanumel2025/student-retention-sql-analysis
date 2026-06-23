@@ -1,7 +1,8 @@
-1. Who are the top performing students within each gender group? Rank students within each gender category based on a weighted academic score using the following:
+/* 1. Who are the top performing students within each gender group? Rank students within each gender category based on a weighted academic score using the following:
 30% Assignment Score
 30% Midterm Score
 40% Final Exam Score
+*/
 
 SELECT
     STUDENT_ID,
@@ -26,7 +27,8 @@ SELECT
     ) AS PERFORMANCE_RANK
 FROM STUDENT_DATA;
 
-2. Who are the highest-risk students within each graduation outcome category? Rank students by risk score within each graduation outcome group.
+/* 2. Who are the highest-risk students within each graduation outcome category? Rank students by risk score within each graduation outcome group.
+*/
 
 SELECT
     STUDENT_ID,
@@ -81,7 +83,8 @@ SELECT
 
 FROM STUDENT_DATA;
 
-3. Who are the most engaged students within each graduation category? Rank students by engagement score within each graduation outcome.
+/* 3. Who are the most engaged students within each graduation category? Rank students by engagement score within each graduation outcome.
+*/
 
 SELECT
     STUDENT_ID,
@@ -106,7 +109,7 @@ SELECT
     ) AS ENGAGEMENT_RANK
 FROM STUDENT_DATA;
 
-4. Assign a unique row number to students within each gender based on final exam performance.
+/* 4. Assign a unique row number to students within each gender based on final exam performance. */
 
 SELECT
     STUDENT_ID,
@@ -119,7 +122,7 @@ SELECT
     ) AS ROW_NUM
 FROM STUDENT_DATA;
 
-5. Identify the top 3 students within each gender.
+/* 5. Identify the top 3 students within each gender. */
 
 WITH PERFORMANCE_RANKING AS (
     SELECT
@@ -148,7 +151,7 @@ SELECT *
 FROM PERFORMANCE_RANKING
 WHERE RN <= 3;
 
-6. The university career services team wants to identify
+/* 6. The university career services team wants to identify
 graduates who are earning substantially more than their
 industry peers. For each industry:
 
@@ -157,6 +160,7 @@ industry peers. For each industry:
   average.
 - Identify graduates whose starting salary is at least
   £15,000 higher than their industry's average salary.
+*/
 
 WITH INDUSTRY_SALARY_STATS AS (
     SELECT

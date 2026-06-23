@@ -1,10 +1,9 @@
-1. Determine whether scholarship recipients obtain better employment outcomes after graduation.
-
+/* 1. Determine whether scholarship recipients obtain better employment outcomes after graduation.
 I utilised the tables named below. Find tables in the data folder:
 - STUDENT_DATA
 - STUDENT_CAREER
 - STUDENT_SCHOLARSHIP
-
+*/
 
 SELECT
     SD.STUDENT_ID,
@@ -20,9 +19,9 @@ INNER JOIN STUDENT_SCHOLARSHIP SS
     ON SC.STUDENT_ID = SS.STUDENT_ID;
 
 
-2. Return all students, including those who did not receive scholarships.
-
+/* 2. Return all students, including those who did not receive scholarships.
 I utilise the LEFT JOIN function to preserve all students from STUDENT_DATA.
+*/
 
 SELECT
     SD.STUDENT_ID,
@@ -34,10 +33,11 @@ LEFT JOIN STUDENT_SCHOLARSHIP SS
     ON SD.STUDENT_ID = SS.STUDENT_ID;
 
 
-3. Identify scholarship recipients whose starting salary is at least £10,000 above the average salary
+/* 3. Identify scholarship recipients whose starting salary is at least £10,000 above the average salary
 of others receiving the same scholarship type.
 
 I utilise the Inner join function, as well as window functions and some feature engineering
+*/
 
 WITH SCHOLARSHIP_STATS AS (
     SELECT
@@ -63,12 +63,13 @@ FROM SCHOLARSHIP_STATS
 WHERE STARTING_SALARY >= SCHOLARSHIP_TYPE_AVG_SALARY + 10000
 ORDER BY DIFFERENCE DESC;
 
-4. The university wants to identify students who received
+/* 4. The university wants to identify students who received
 scholarship approval despite relatively weak academic
 performance. Return students whose scholarship recommendation was
 approved but whose final exam score is below 60.
 
 I employed the STUDENT_DATA and STUDENT_SCHOLARSHIP tables
+*/
 
 SELECT
     SD.STUDENT_ID,
@@ -81,8 +82,9 @@ INNER JOIN STUDENT_SCHOLARSHIP SS
 WHERE SS.RECOMMENDATION_STATUS = 'APPROVED'
     AND SD.FINAL_EXAM_SCORE < 60;
 
-5. AI and Data Engineering teams often need to combine
+/* 5. AI and Data Engineering teams often need to combine
 multiple datasets into a single enriched table for analytics, reporting, and machine learning workflows. Create an enriched dataset that combines academic, scholarship, and career information for each student.
+*/
 
 SELECT
     SD.STUDENT_ID,

@@ -1,4 +1,4 @@
-1. How many students demonstrate high academic engagement and performance?
+/* 1. How many students demonstrate high academic engagement and performance? */
 
 SELECT
 COUNT(*)
@@ -7,7 +7,7 @@ WHERE ATTENDANCE_RATE>90
 AND STUDY_HOURS_PER_WEEK>20
 AND FINAL_EXAM_SCORE>85;
 
-2. How does academic performance differ by gender?
+/* 2. How does academic performance differ by gender? */
 
 SELECT
 GENDER,
@@ -18,7 +18,7 @@ FROM STUDENT_DATA
 GROUP BY GENDER
 ORDER BY FIN_EXAM DESC;
 
-3. What is the average attendance rate for each graduation outcome?
+/* 3. What is the average attendance rate for each graduation outcome? */
 
 SELECT
 GRADUATION_OUTCOME,
@@ -27,7 +27,7 @@ FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME
 ORDER BY ATTENDANCE_RATES DESC;
 
-4. How many students fall into each attendance category?
+/* 4. How many students fall into each attendance category? */
 Conditions:
 
 Excellent (90+)
@@ -49,7 +49,7 @@ CASE
     WHEN ATTENDANCE_RATE < 75 THEN 'POOR'
 END;
 
-5. What percentage of each gender is classified as dropout risk?
+/* 5. What percentage of each gender is classified as dropout risk? */
 
 SELECT
 GENDER,
@@ -68,7 +68,7 @@ ROUND(
 FROM STUDENT_DATA
 GROUP BY GENDER;
 
-6. Create a behavioural summary for each graduation outcome.
+/* 6. Create a behavioural summary for each graduation outcome. */
 
 SELECT
 GRADUATION_OUTCOME,
@@ -81,7 +81,7 @@ FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME
 ORDER BY AVERAGE_FINAL_EXAM_SCORE DESC;
 
-7. Which students have unusually high study hours?
+/* 7. Which students have unusually high study hours? */
 
 WITH STATS AS (
     SELECT
@@ -97,7 +97,7 @@ FROM STUDENT_DATA,
 WHERE STUDY_HOURS_PER_WEEK >
       (AVG_STUDY_HOURS * 2);
 
-8. Generate summary statistics for a student's final exam score
+/* 8. Generate summary statistics for a student's final exam score */
 
 SELECT
     MIN(FINAL_EXAM_SCORE) AS MIN_SCORE,
@@ -106,7 +106,7 @@ SELECT
 FROM STUDENT_DATA;
 
 
-9. How many records belong to each graduation outcome?
+/* 9. How many records belong to each graduation outcome? */
 
 SELECT
     GRADUATION_OUTCOME,

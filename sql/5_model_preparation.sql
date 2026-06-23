@@ -1,9 +1,10 @@
-1. Create a model training dataset to predict graduation outcomes
+/* 1. Create a model training dataset to predict graduation outcomes
 Build a feature table, which contains:
 * Engagement Score
 * Academic Score
 * Risk Flag
 Only include students receiving financial aid
+*/
 
 SELECT
     STUDENT_ID,
@@ -24,8 +25,9 @@ SELECT
 FROM STUDENT_DATA
 WHERE FINANCIAL_AID = 'TRUE';
 
-2. Create a behavioural segmentation dataset
+/* 2. Create a behavioural segmentation dataset
 In the table, calculate an engagement metric, then segment students into behavioural groups for downstream model training
+*/
 
 WITH ENGAGEMENT_DATA AS (
     SELECT
@@ -69,17 +71,22 @@ SELECT
 
 FROM RANKED_DATA;
 
-3. Perform a data quality audit to identify records that may negatively impact model performance
-Use the following rules to guide you:
+/* 3. Perform a data quality audit to identify records that may negatively impact model performance
+I use the following rules to guide me:
 
 Rule 1: Attendance exceeds 100%
+Rule 2: Study hours exceed 80 hours
+Rule 3: Identifying missing final exam scores
+Rule 4: Identifying data inconsistencies
+*/
+
 SELECT
     STUDENT_ID,
     'Attendance > 100' AS ISSUE_DETECTED
 FROM STUDENT_DATA
 WHERE ATTENDANCE_RATE > 100
 
-Rule 2: Study hours exceed 80 hours
+
 UNION ALL
 SELECT
     STUDENT_ID,
@@ -87,7 +94,7 @@ SELECT
 FROM STUDENT_DATA
 WHERE STUDY_HOURS_PER_WEEK > 80
 
-Rule 3: Identifying missing final exam scores
+
 UNION ALL
 
 SELECT
@@ -96,7 +103,6 @@ SELECT
 FROM STUDENT_DATA
 WHERE FINAL_EXAM_SCORE IS NULL
 
-Rule 4: Identifying data inconsistencies
 UNION ALL
 
 SELECT
@@ -106,8 +112,9 @@ FROM STUDENT_DATA
 WHERE ATTENDANCE_RATE < 50
   AND FINAL_EXAM_SCORE > 90;
 
-4. Data Quality audits
+/* 4. Data Quality audits
 Are there any missing values in critical analytical columns?
+*/
 
 SELECT
     COUNT(CASE WHEN ATTENDANCE_RATE IS NULL THEN 1 END)
@@ -118,7 +125,7 @@ SELECT
         AS MISSING_OUTCOME
 FROM STUDENT_DATA;
 
-5. Do any duplicate student IDs exist?
+/* 5. Do any duplicate student IDs exist? */
 
 SELECT
     STUDENT_ID,
@@ -127,7 +134,7 @@ FROM STUDENT_DATA
 GROUP BY STUDENT_ID
 HAVING COUNT(*) > 1;
 
-6. Create a table view for model training to predict drop out risk outcomes
+/* 6. Create a table view for model training to predict drop out risk outcomes */
 
 SELECT
     STUDENT_ID,
@@ -142,8 +149,9 @@ SELECT
     END AS TARGET_LABEL
 FROM STUDENT_DATA;
 
-7. The university wants to build a dataset that can be used
+/* 7. The university wants to build a dataset that can be used
 to analyse and predict graduate employment outcomes. Construct a model-ready dataset by combining student academic performance data with post-graduation career outcomes.
+*/
 
 SELECT
     SD.STUDENT_ID,
@@ -157,10 +165,11 @@ FROM STUDENT_DATA SD
 INNER JOIN STUDENT_CAREER SC
     ON SD.STUDENT_ID = SC.STUDENT_ID;
 
-8. The AI team wants to develop a machine learning model
+/* 8. The AI team wants to develop a machine learning model
 capable of predicting graduate starting salaries based
 on academic performance, demographic information, scholarship outcomes, and employment characteristics. Create a reusable SQL view that assembles a model-ready
 dataset for salary prediction.
+*/
 
 CREATE VIEW SALARY_PREDICTION AS
 SELECT

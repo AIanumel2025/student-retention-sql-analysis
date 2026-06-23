@@ -1,9 +1,10 @@
-1. Which students are working more than average but performing below average academically?
+/* 1. Which students are working more than average but performing below average academically?
 In this query, I identify students whose work commitments may be negatively impacting academic
 performance.
 Criteria used:
 - Above-average part-time job hours
 - Below-average final exam score
+*/
 
 WITH METRICS AS (
     SELECT
@@ -29,7 +30,8 @@ WHERE PART_TIME_JOB_HOURS > AVG_WORK_HOURS
 
 ORDER BY PART_TIME_JOB_HOURS DESC;
 
-2. Which students are underperforming compared with overall engagement benchmarks? I identify students whose attendance, LMS activity and exam performance are all below institutional averages.
+/* 2. Which students are underperforming compared with overall engagement benchmarks? I identify students whose attendance, LMS activity and exam performance are all below institutional averages.
+*/
 
 WITH BENCHMARKS AS (
     SELECT
@@ -52,7 +54,8 @@ WHERE S.ATTENDANCE_RATE < B.AVG_ATTENDANCE
 AND S.LMS_LOGINS_PER_WEEK < B.AVG_LMS
 AND S.FINAL_EXAM_SCORE < B.AVG_FINAL;
 
-3. Which graduation outcomes exhibit the weakest engagement patterns? Comparing engagement metrics across graduation outcomes.
+/* 3. Which graduation outcomes exhibit the weakest engagement patterns? Comparing engagement metrics across graduation outcomes.
+*/
 
 SELECT
     GRADUATION_OUTCOME,
@@ -69,11 +72,12 @@ FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME
 ORDER BY AVG_FINAL_SCORE ASC;
 
-4. How many students meet common retention-risk criteria? 
+/* 4. How many students meet common retention-risk criteria? 
 I measure the size of the student population considered at risk, using the criteria below:
 * Attendance below 65 or
 * Critical disciplinary record or
 * Final exam score below 50
+*/
 
 SELECT
     COUNT(
@@ -98,7 +102,7 @@ SELECT
     ) AS AT_RISK_PERCENTAGE
 FROM STUDENT_DATA;
 
-5. Which students are highly engaged but still underperform academically? 
+/* 5. Which students are highly engaged but still underperform academically? */
 
 SELECT
     STUDENT_ID,
@@ -115,7 +119,7 @@ AND LMS_LOGINS_PER_WEEK >= 10
 AND STUDY_HOURS_PER_WEEK >= 15
 AND FINAL_EXAM_SCORE < 50;
 
-6. Create a summary table at the graduation outcome level.
+/* 6. Create a summary table at the graduation outcome level. */
 
 SELECT
     GRADUATION_OUTCOME,
@@ -125,12 +129,13 @@ SELECT
 FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME;
 
-7. The scholarship committee wants to understand how
+/* 7. The scholarship committee wants to understand how
 scholarship awards are distributed across different
 scholarship categories. For each scholarship type, calculate:
 - The number of students
 - Average scholarship amount
 - Average scholarship score
+*/
 
 SELECT
     SCHOLARSHIP_TYPE,
@@ -141,7 +146,7 @@ FROM STUDENT_SCHOLARSHIP
 GROUP BY SCHOLARSHIP_TYPE
 ORDER BY AVG_SCHOLARSHIP_AMOUNT DESC;
 
-8. The university wants to understand whether students
+/* 8. The university wants to understand whether students
 who receive financial aid are also more likely to
 qualify for scholarships. Analyse the relationship between financial aid status
 and scholarship eligibility by counting the number of students in each group. 
@@ -149,6 +154,7 @@ Returns:
 - financial_aid
 - scholarship_eligible
 - number_of_students
+*/
 
 SELECT
     SD.FINANCIAL_AID,
