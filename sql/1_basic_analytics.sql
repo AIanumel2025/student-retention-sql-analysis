@@ -27,12 +27,13 @@ FROM STUDENT_DATA
 GROUP BY GRADUATION_OUTCOME
 ORDER BY ATTENDANCE_RATES DESC;
 
-/* 4. How many students fall into each attendance category? */
+/* 4. How many students fall into each attendance category?
 Conditions:
 
 Excellent (90+)
 Good (75–89)
 Poor (<75)
+*/
 
 SELECT
 CASE
